@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Le tour de cartes
+  </title>
+  <link href="style.css" rel="stylesheet"/>
+  <script defer="" src="script.js">
+  </script>
+ </head>
+ <body>
+  <!-- Interface du tour ; les styles et le comportement sont chargés séparément. -->
+  <main>
+   <header>
+    <p class="eyebrow">
+     ATELIER INTERACTIF · 32 CARTES
+    </p>
+    <h1>
+     Le secret des cartes
+     <span>
+      Comprendre le tour, un geste à la fois.
+     </span>
+    </h1>
+    <p>
+     Deux mélanges qui semblent désordonner le jeu… mais conservent des traces de son ordre initial.
+    </p>
+   </header>
+   <nav aria-label="Étapes du tour" id="steps">
+   </nav>
+   <section class="panel">
+    <div class="heading">
+     <div>
+      <p class="eyebrow" id="stage">
+      </p>
+      <h2 id="title">
+      </h2>
+     </div>
+     <button class="secondary" id="reset">
+      Recommencer
+     </button>
+    </div>
+    <p aria-live="polite" id="instruction">
+    </p>
+    <div id="controls">
+    </div>
+    <div hidden="" id="shuffle">
+     <div class="halves">
+      <div>
+       <h3>
+        Moitié A
+       </h3>
+       <div class="strip" id="left">
+       </div>
+      </div>
+      <div>
+       <h3>
+        Moitié B
+       </h3>
+       <div class="strip" id="right">
+       </div>
+      </div>
+     </div>
+     <h3>
+      Paquet reconstruit, carte par carte
+     </h3>
+     <div class="strip" id="merged">
+     </div>
+    </div>
+    <div id="held">
+    </div>
+    <div class="table-label">
+     <strong id="deckLabel">
+      Le paquet
+     </strong>
+     <span>
+      Lecture de gauche à droite, puis ligne suivante. La première carte est le dessus.
+     </span>
+    </div>
+    <p aria-live="polite" class="status" id="statusTop" role="status">
+    </p>
+    <div class="deck" id="deck">
+    </div>
+    <p aria-hidden="true" class="status" id="status">
+    </p>
+   </section>
+   <section class="explain">
+    <h2>
+     Que faut-il observer ?
+    </h2>
+    <p>
+     Un
+     <strong>
+      riffle
+     </strong>
+     entrelace deux moitiés, mais ne change pas l’ordre à l’intérieur de chaque moitié. Ce n’est donc pas un mélange totalement libre.
+    </p>
+    <div class="example">
+     <div>
+      <small>
+       Ordre préparé
+      </small>
+      <code>
+       0 1 2 3 4 5 6 7 8 9
+      </code>
+     </div>
+     <div>
+      <small>
+       Après un riffle
+      </small>
+      <code>
+       <b>
+        0 1
+       </b>
+       <em>
+        5
+       </em>
+       <b>
+        2
+       </b>
+       <em>
+        6
+       </em>
+       <b>
+        3
+       </b>
+       <em>
+        7 8 9
+       </em>
+       <b>
+        4
+       </b>
+      </code>
+     </div>
+    </div>
+    <p>
+     Les cartes
+     <b>
+      0, 1, 2, 3, 4
+     </b>
+     restent dans cet ordre ; les cartes
+     <b>
+      5, 6, 7, 8, 9
+     </b>
+     aussi, même si elles sont séparées. Ce sont les deux séquences.
+    </p>
+    <p>
+     Deux riffles produisent au maximum quatre séquences dans la lecture linéaire du paquet. Déplacer une carte peut créer une rupture supplémentaire. Une coupe fait tourner le paquet : on doit alors raisonner sur un cercle.
+    </p>
+    <p class="note">
+     La recherche annule chaque déplacement possible et teste toutes les coupes pour retrouver au maximum quatre séquences. Elle analyse uniquement le paquet final, sans consulter la carte mémorisée. Ce critère est conservateur : il ne vérifie pas les tailles exactes des moitiés des mélanges (12 à 20 cartes), ce qui peut laisser des candidats supplémentaires. Une réponse unique identifie la carte ; sinon, les possibilités sont affichées. Le bouton de vérification utilise séparément la carte mémorisée.
+    </p>
+   </section>
+   <footer>
+    HTML pour la structure · CSS pour les cartes et les mouvements · JavaScript pour les règles. Fonctionne hors ligne, sans dépendance.
+   </footer>
+  </main>
+ </body>
+</html>

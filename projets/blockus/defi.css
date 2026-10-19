@@ -1,0 +1,477 @@
+.center-table {
+    width: 75vh; /* Agrandie à 75vh */
+    height: 75vh; /* Même hauteur que largeur pour un carré parfait */
+    max-width: 850px; /* Limite maximale augmentée de 700px à 850px */
+    max-height: 850px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border: 2px solid #333;
+    table-layout: fixed; /* Force les cellules à avoir la même taille */
+}
+
+.center-table td {
+    border: 1px solid #333;
+    width: 5%; /* 100% / 20 colonnes */
+    height: 5%; /* 100% / 20 lignes pour des cellules carrées */
+    text-align: center;
+    vertical-align: middle;
+    background-color: #fff;
+}
+
+/* Style pour centrer verticalement sur la page */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 10px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #dfdfdf;
+    box-sizing: border-box;
+}
+
+/* Conteneur principal pour organiser les éléments côte à côte */
+.container {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    max-width: 100vw;
+    max-height: 100vh;
+    overflow: auto;
+}
+
+/* Zone de sélection */
+.selection-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 220px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 10px;
+    box-sizing: border-box;
+    min-height: 0; /* Permet la compression si nécessaire */
+}
+
+.selection-area h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 16px;
+}
+
+/* Tableau de sélection 5x5 */
+.selection-table {
+    width: 120px;
+    height: 120px;
+    border-collapse: collapse;
+    border: 2px solid #333;
+    table-layout: fixed;
+    flex-shrink: 0; /* Empêche la compression */
+    margin: 8px 0; /* Ajoute un peu d'espace autour */
+}
+
+.selection-table td {
+    border: 1px solid #333;
+    width: 20%; /* 100% / 5 colonnes */
+    height: 20%; /* 100% / 5 lignes pour des cellules carrées */
+    text-align: center;
+    vertical-align: middle;
+    background-color: #fff;
+    box-sizing: border-box; /* Inclut les bordures dans la taille */
+}
+
+.selection-table td:hover {
+    background-color: #e0e0e0;
+}
+
+.center-table td:hover {
+    background-color: #f0f0f0;
+}
+
+/* Styles pour les coins de départ des joueurs */
+.center-table td.starting-corner {
+    border: 2px solid #333;
+    box-sizing: border-box;
+}
+
+.center-table td.starting-corner:hover {
+    filter: brightness(1.1);
+}
+
+/* Styles pour la prévisualisation des pièces */
+.center-table td.preview-light {
+    position: relative;
+}
+
+.center-table td.preview-light::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+}
+
+.center-table td.preview-center {
+    position: relative;
+}
+
+.center-table td.preview-center::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.169);
+    pointer-events: none;
+}
+
+.center-table td.preview-piece::after {
+    background-color: rgba(0, 0, 0, 0.4) !important; /* Plus foncé pour les cases de la pièce */
+}
+
+.center-table td.preview-error {
+    position: relative;
+}
+
+.center-table td.preview-error::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 0, 0, 0.6) !important; /* Rouge pour indiquer l'erreur */
+    pointer-events: none;
+}
+
+/* Styles pour les contrôles des pièces */
+.piece-controls {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.piece-controls button {
+    padding: 6px 8px;
+    background-color: #7921f3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    transition: background-color 0.2s;
+}
+
+.piece-controls button:hover {
+    background-color: #6f19d2;
+}
+
+/* Conteneur pour les boutons de rotation */
+.rotation-buttons {
+    display: flex;
+    gap: 3px;
+    width: 100%;
+}
+
+.rotation-buttons button {
+    flex: 1; /* Chaque bouton prend la moitié de l'espace */
+    font-size: 10px; /* Taille de police réduite */
+}
+
+/* Styles pour la liste des pièces */
+.pieces-list {
+    margin-top: 15px;
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.pieces-list h4 {
+    margin: 0 0 8px 0;
+    color: #333;
+    font-size: 13px;
+    text-align: center;
+}
+
+.piece-button {
+    display: block;
+    width: 100%;
+    margin: 3px 0;
+    padding: 6px;
+    background-color: #be74e3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 10px;
+    transition: background-color 0.2s;
+}
+
+.piece-button:hover {
+    background-color: #8245a0;
+}
+
+.piece-button.selected {
+    background-color: #ff91fd;
+    font-weight: bold;
+}
+
+.piece-button.selected:hover {
+    background-color: #ff87fd;
+}
+
+/* Styles pour l'affichage du joueur actuel */
+.player-info {
+    text-align: center;
+    margin: 8px 0;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.player-info h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Style pour les pièces déjà jouées */
+.piece-button.piece-played {
+    background-color: #9E9E9E !important;
+    color: #666 !important;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.piece-button.piece-played:hover {
+    background-color: #9E9E9E !important;
+}
+
+/* Styles pour l'ordre de passage */
+.turn-order {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 8px 0;
+    padding: 6px;
+    background-color: #f5f5f5;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.turn-order-label {
+    font-size: 10px;
+    color: #666;
+    margin-bottom: 4px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.turn-players-container {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.turn-player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3px;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    min-width: 32px;
+}
+
+.turn-player.current {
+    border-color: #333;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transform: scale(1.05);
+}
+
+.turn-player.blocked {
+    opacity: 0.4;
+    filter: grayscale(100%);
+}
+
+.turn-player.blocked .turn-player-circle {
+    background-color: #999 !important;
+}
+
+.turn-player-circle {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-bottom: 2px;
+    border: 2px solid #333;
+    transition: all 0.3s ease;
+}
+
+.turn-player-name {
+    font-size: 8px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    line-height: 1;
+}
+
+.turn-player.blocked .turn-player-name {
+    color: #999;
+}
+
+/* Écran de fin de partie */
+#game-over {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    text-align: center;
+    z-index: 1000;
+    display: none; /* Caché par défaut */
+}
+
+#game-over .game-over-title {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 4.5vw;
+    margin: 0;
+    font-weight: bold;
+    color: #FFD700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+#game-over .scores-container {
+    position: absolute;
+    top: 28%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    max-width: 500px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 15px;
+    backdrop-filter: blur(10px);
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+#game-over .winner-announcement {
+    font-size: 3vw;
+    margin-bottom: 15px;
+    color: #FFD700;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+#game-over .scores-list {
+    font-size: 2vw;
+    line-height: 1.5;
+    margin: 12px 0;
+}
+
+#game-over .score-item {
+    margin: 6px 0;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#game-over .score-item.winner {
+    background-color: rgba(255, 215, 0, 0.3);
+    border: 2px solid #FFD700;
+}
+
+#game-over .player-score-name {
+    font-weight: bold;
+}
+
+#game-over .player-score-points {
+    font-size: 1.8vw;
+}
+
+#game-over .restart-button {
+    position: absolute;
+    bottom: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 25px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 2.5vw;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+#game-over .restart-button:hover {
+    background-color: #45a049;
+    transform: translateX(-50%) scale(1.05);
+}
+
+/* Styles responsifs pour les petits écrans */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding: 5px;
+    }
+    
+    .center-table {
+        width: 90vw;
+        height: 90vw;
+        max-width: 500px; /* Augmenté de 400px à 500px pour mobile */
+        max-height: 500px;
+    }
+    
+    .selection-area {
+        width: 90vw;
+        max-width: 400px;
+        max-height: none;
+    }
+    
+    .pieces-list {
+        max-height: 200px;
+    }
+}
+
+@media (max-height: 600px) {
+    .center-table {
+        width: 45vh; /* Augmenté de 40vh à 45vh pour les écrans bas */
+        height: 45vh;
+    }
+    
+    .selection-area {
+        max-height: 80vh;
+    }
+    
+    .pieces-list {
+        max-height: 150px;
+    }
+}
