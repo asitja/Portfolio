@@ -12,6 +12,7 @@ const labels = ['Préparer', 'Riffle 1', 'Riffle 2', 'Couper', 'Mémoriser', 'R�
 let deck = [];
 let step = 0;
 let selected = null;
+let cutEnd = null;
 let busy = false;
 let generation = 0;
 const $ = id => document.getElementById(id);
@@ -71,7 +72,7 @@ function renderDeck() {
       cell.append(b);
     }
     const c = createCard(id);
-    if (i === 0) c.classList.add('top');
+    if (id === cutEnd) c.classList.add('cut-end');
     cell.append(c);
     $('deck').append(cell);
   });
@@ -99,7 +100,7 @@ function renderStep() {
     'Cliquez pour séparer le paquet et voir les cartes des deux moitiés s’entrelacer lentement.',
     'Un deuxième riffle entrelace de nouveau deux moitiés du paquet obtenu.',
     'Choisissez une frontière avec le curseur. Les cartes avant cette frontière passent sous le paquet, sans changer leur ordre.',
-    'Le tour du rapport demande de prendre la carte du dessus, encadrée en doré. Vous ne choisissez donc pas une carte quelconque.',
+    'Le tour du rapport demande de prendre la carte du dessus, la première du paquet. Le contour orange repère la dernière carte de la coupe précédente.',
     'La carte mémorisée est sortie du jeu. Cliquez sur « Remettre ici » à l’endroit choisi, de préférence au milieu du paquet.',
     'Vous pouvez encore couper : cela fait tourner le paquet, sans mélanger les cartes.',
     'Observez les séquences et la position réelle de votre carte. Lancez la recherche automatique ; elle peut afficher plusieurs candidats.'
@@ -126,7 +127,21 @@ function renderStep() {
   }
   if (step === 7) {
     addControlButton('Rechercher automatiquement', searchCard);
-    addControlButton('Colorer les séquences', sequences);
+    const colorButton = addControlButton('Colorer les séquences', () => {
+      const enable = colorButton.getAttribute('aria-pressed') !== 'true';
+      if (enable) {
+        highlightSequences();
+      } else {
+        [...$('deck').children].forEach(cell => {
+          const card = cell.querySelector('.card');
+          card.classList.remove('sequence', 'sequence-break');
+          card.style.borderTopColor = '';
+          card.title = '';
+        });
+      }
+      colorButton.setAttribute('aria-pressed', String(enable));
+    });
+    colorButton.setAttribute('aria-pressed', 'false');
     addControlButton('Vérifier ma carte', () => {
       [...$('deck').children].forEach((cell, i) => cell.querySelector('.card').classList.toggle(
         'marked', deck[i] === selected));
@@ -142,7 +157,7 @@ function renderCutControls() {
   const range = document.createElement('input');
   range.type = 'range';
   range.min = 1;
-  range.max = 31;
+  range.max = deck.length - 1;
   range.value = 16;
   range.setAttribute('aria-label', 'Nombre de cartes déplacées sous le paquet');
   const output = document.createElement('output');
@@ -152,7 +167,9 @@ function renderCutControls() {
   function preview() {
     output.textContent = range.value + ' cartes';
     [...$('deck').children].forEach((cell, i) => {
-      cell.querySelector('.card').style.transform = i < Number(range.value) ?
+      const card = cell.querySelector('.card');
+      card.classList.toggle('cut-end', i === Number(range.value) - 1);
+      card.style.transform = i < Number(range.value) ?
         'translateY(-8px)' : '';
     });
     setStatus('Frontière entre ' + cardName(deck[range.value - 1]) + ' et ' + cardName(deck[range
@@ -162,6 +179,7 @@ function renderCutControls() {
   preview();
   addControlButton('Effectuer la coupe', () => {
     const k = Number(range.value);
+    cutEnd = deck[k - 1];
     deck = [...deck.slice(k), ...deck.slice(0, k)];
     step++;
     renderStep();
@@ -198,8 +216,9 @@ async function shuffle() {
   $('right').replaceChildren(...b.map(x => createCard(x, true)));
   $('merged').replaceChildren();
   setStatus('Regardez : seule la prochaine carte de chaque moitié peut être ajoutée.');
+  const delay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 250;
   while (a.length || b.length) {
-    await wait(160);
+    await wait(delay);
     // Une nouvelle partie a commencé pendant l’attente : abandonner l’animation.
     if (token !== generation) {
       return;
@@ -224,30 +243,58 @@ async function shuffle() {
   });
 }
 
-function highlightSequences() {
-  // Définition linéaire : les rangs consécutifs restent une même
-  // séquence tant que leurs positions dans le paquet augmentent.
-  const pos = [];
-  deck.forEach((id, i) => pos[id] = i);
-  const groups = [];
-  let group = 0;
-  groups[0] = 0;
-  for (let id = 1; id < 32; id++) {
-    if (pos[id] < pos[id - 1]) group++;
-    groups[id] = group;
+function circularSequences(order, excluded = []) {
+  const ignored = new Set(excluded);
+  const remaining = order.filter(id => !ignored.has(id));
+  const ranks = remaining.slice().sort((left, right) => left - right);
+  let best = { groups: [], count: 0 };
+  for (const anchor of ranks) {
+    const start = remaining.indexOf(anchor);
+    const positions = [];
+    remaining.forEach((id, index) => {
+      positions[id] = (index - start + remaining.length) % remaining.length;
+    });
+    const groups = [];
+    let group = 0;
+    ranks.forEach((id, index) => {
+      if (index && positions[id] < positions[ranks[index - 1]]) group++;
+      groups[id] = group;
+    });
+    if (group && positions[ranks.at(-1)] < positions[ranks[0]]) {
+      ranks.forEach(id => {
+        if (groups[id] === group) groups[id] = 0;
+      });
+      group--;
+    }
+    if (!best.count || group + 1 < best.count) best = { groups, count: group + 1 };
   }
+  return best;
+}
+
+function highlightSequences() {
+  const candidates = analyzeDeck(deck).candidates;
+  const breaks = new Set(candidates);
+  const sequences = circularSequences(deck, candidates);
   [...$('deck').children].forEach((cell, i) => {
     const c = cell.querySelector('.card');
     c.classList.add('sequence');
-    c.style.borderTopColor = colors[groups[deck[i]] % colors.length];
+    c.classList.toggle('sequence-break', breaks.has(deck[i]));
+    c.style.borderTopColor = breaks.has(deck[i]) ? '#df3547' :
+      colors[sequences.groups[deck[i]] % colors.length];
+    c.title = breaks.has(deck[i]) ? 'Rupture possible : ' + cardName(deck[i]) :
+      'Séquence circulaire ' + (sequences.groups[deck[i]] + 1);
   });
-  setStatus((group + 1) +
-    ' séquences dans cette lecture linéaire. Les cartes d’une même séquence ont la même couleur. Après une coupe, cette lecture peut scinder une séquence circulaire : ce nombre ne suffit pas à retrouver la carte.'
-    );
+  if (!$('statusTop').textContent) setStatus(sequences.count + ' séquences circulaires' +
+    (candidates.length ? ', hors cartes candidates à une rupture' : '') +
+    '. Le paquet se lit en boucle : après 31 vient 0. Une coupe ne change pas les couleurs.' +
+    (candidates.length === 1 ? ' La carte candidate à la rupture est en rouge.' :
+      candidates.length ? ' Les ruptures possibles sont en rouge ; leur rôle reste ambigu.' :
+        ' Aucune carte responsable d’une rupture n’est identifiable avec ce critère.'));
 }
 // Recherche indépendante : uniquement le paquet final, jamais selected.
 // Critère conservateur : annuler un déplacement puis tester toutes les coupes.
 function risingCount(order) {
+  if (!order.length) return 0;
   const pos = [];
   order.forEach((id, i) => pos[id] = i);
   let count = 1;
@@ -258,9 +305,13 @@ function risingCount(order) {
 
 // Test nécessaire, mais conservateur : les tailles des moitiés ne sont pas vérifiées.
 function compatibleWithTwoRiffles(order) {
-  for (let cut = 0; cut < order.length; cut++) {
-    const rotated = order.slice(cut).concat(order.slice(0, cut));
-    if (risingCount(rotated) <= 4) return true;
+  let count = risingCount(order);
+  if (count <= 4) return true;
+  for (let cut = 0; cut < order.length - 1; cut++) {
+    const id = order[cut];
+    if (id > 0) count--;
+    if (id < order.length - 1) count++;
+    if (count <= 4) return true;
   }
   return false;
 }
@@ -282,17 +333,46 @@ function findCandidates(finalDeck) {
   return result;
 }
 
+function analyzeDeck(finalDeck) {
+  if (compatibleWithTwoRiffles(finalDeck)) {
+    return {
+      candidates: [],
+      message: 'Aucune carte identifiable : aucune rupture de séquence détectable ' +
+        'avec ce critère. La carte a peut-être été reposée au même endroit, ' +
+        'ou déplacée trop légèrement pour laisser une trace suffisante.'
+    };
+  }
+
+  const candidates = findCandidates(finalDeck);
+  let message;
+  if (candidates.length === 1) {
+    message = 'Une seule carte candidate selon le critère des séquences : ' +
+      cardName(candidates[0]) + '. Elle est encadrée en bleu.';
+  } else if (candidates.length === 2) {
+    message = 'Deux cartes possibles : ' + candidates.map(cardName).join(' ou ') +
+      '. Un déplacement léger peut ne pas modifier suffisamment les séquences ' +
+      'pour départager les cartes : par exemple, passer de 123456 à 123546 ' +
+      'peut correspondre au déplacement du 4 ou du 5. Les deux candidates ' +
+      'sont encadrées en bleu.';
+  } else if (candidates.length) {
+    message = 'Résultat ambigu : ' + candidates.length + ' cartes possibles — ' +
+      candidates.map(cardName).join(', ') +
+      '. Plusieurs déplacements expliquent les séquences observées. ' +
+      'Les candidates sont encadrées en bleu.';
+  } else {
+    message = 'Aucune carte compatible trouvée : le paquet ne correspond pas ' +
+      'au critère des deux riffles suivis du déplacement d’une seule carte. ' +
+      'Cela ne signifie pas qu’aucune séquence n’a été brisée.';
+  }
+  return { candidates, message };
+}
+
 function searchCard() {
-  const candidates = findCandidates(deck.slice());
+  const result = analyzeDeck(deck);
+  const candidates = new Set(result.candidates);
   [...$('deck').children].forEach((cell, i) => cell.querySelector('.card').classList.toggle(
-    'marked', candidates.includes(deck[i])));
-  if (candidates.length === 1) setStatus('Carte retrouvée : ' + cardName(candidates[0]) +
-    '. Une seule carte explique le déplacement selon le critère des séquences.');
-  else if (candidates.length) setStatus('Résultat ambigu : ' + candidates.length +
-    ' cartes possibles — ' + candidates.map(name).join(', ') +
-    '. Elles sont encadrées en bleu. Le critère des séquences ne permet pas de choisir une seule carte.'
-    );
-  else setStatus('Aucune carte compatible avec les règles analysées.');
+    'marked', candidates.has(deck[i])));
+  setStatus(result.message);
 }
 
 function reset() {
@@ -303,6 +383,7 @@ function reset() {
   }, (_, i) => i);
   step = 0;
   selected = null;
+  cutEnd = null;
   renderStep();
 }
 $('reset').onclick = reset;

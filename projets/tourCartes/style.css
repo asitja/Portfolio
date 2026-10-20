@@ -207,12 +207,23 @@ input[type=range] {
   color: #68756a;
 }
 
-.card.top {
+.sequence .rank {
+  font-weight: 800;
+  color: #202b28;
+}
+
+.card.cut-end {
   border-color: #418452;
+}
+
+.card.sequence-break {
+  background: #ffe0e4;
 }
 
 .card.marked {
   border-color: #35bcec;
+  outline: 2px solid #35bcec;
+  outline-offset: 2px;
   transform: translateY(-6px);
 }
 
@@ -273,7 +284,7 @@ h3 {
 }
 
 .status {
-  color: #7ba385;
+  color: #c1dfca;
   min-height: 24px;
   font-size: 18px;
   line-height: 1.55;
@@ -342,6 +353,7 @@ footer {
 
 label {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   align-items: center;
 }
@@ -392,6 +404,12 @@ label {
 
   .status {
     font-size: 16px;
+  }
+}
+
+@media (max-width:400px) {
+  .corner.bottom {
+    display: none;
   }
 }
 

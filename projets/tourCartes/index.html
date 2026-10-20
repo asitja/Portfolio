@@ -148,8 +148,14 @@
     <p>
      Deux riffles produisent au maximum quatre séquences dans la lecture linéaire du paquet. Déplacer une carte peut créer une rupture supplémentaire. Une coupe fait tourner le paquet : on doit alors raisonner sur un cercle.
     </p>
+    <p>
+     La coloration suit ce cercle : 29, 30, 31, 0, 1, 2 restent dans la continuité, même après une coupe. Les cartes candidates à une rupture sont distinguées en rouge ; plusieurs cartes rouges indiquent une ambiguïté, pas plusieurs cartes nécessairement déplacées.
+    </p>
     <p class="note">
-     La recherche annule chaque déplacement possible et teste toutes les coupes pour retrouver au maximum quatre séquences. Elle analyse uniquement le paquet final, sans consulter la carte mémorisée. Ce critère est conservateur : il ne vérifie pas les tailles exactes des moitiés des mélanges (12 à 20 cartes), ce qui peut laisser des candidats supplémentaires. Une réponse unique identifie la carte ; sinon, les possibilités sont affichées. Le bouton de vérification utilise séparément la carte mémorisée.
+    Si le paquet est déjà compatible avec deux riffles, aucune rupture de séquence n’est détectable avec ce critère : la carte a peut-être été reposée au même endroit. Sinon, la recherche annule chaque déplacement possible et teste toutes les coupes pour retrouver au maximum quatre séquences. Elle analyse uniquement le paquet final, sans consulter la carte mémorisée. Ce critère est conservateur : il ne vérifie pas les tailles exactes des moitiés des mélanges (12 à 20 cartes), ce qui peut laisser des candidats supplémentaires. Une réponse unique désigne la seule candidate selon ce critère ; sinon, les possibilités sont affichées. Le bouton de vérification utilise séparément la carte mémorisée.
+    </p>
+    <p>
+    Deux cartes peuvent être indiscernables après un petit déplacement : passer de <code>123456</code> à <code>123546</code> peut signifier que le 4 a été déplacé après le 5, ou que le 5 a été déplacé avant le 4. La différence ne suffit pas toujours à identifier la carte.
     </p>
    </section>
    <footer>
