@@ -57,7 +57,9 @@
       ],
       report: "rapportAPPL2.pdf",
       reportLabel: "Consulter le rapport APP L2",
-      images: []
+      images: [
+        ...[1, 2, 3].map(n => ({ file: `APPL2_${n}.jpg`, caption: "Culture des chlorelles" }))
+      ]
     },
     stageL2: {
       kicker: "STAGE · LICENCE 2 · TÉLÉCOM PARIS",

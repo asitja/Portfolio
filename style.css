@@ -258,17 +258,21 @@ h1 span { display: block; color: #FFFFFF; }
 .pdf-fallback { position: absolute; inset: 0; display: grid; place-content: center; gap: .5rem; padding: 2rem; background: #102344; text-align: center; }
 .pdf-fallback[hidden] { display: none; }
 .pdf-fallback a { color: #A6D8FF; }
-.modal-dialog--game { width: min(80vw, 1100px); height: 50vh; transition: width .2s ease, height .2s ease; }
+.modal-dialog--game { width: min(80vw, 1100px); height: 70vh; transition: width .2s ease, height .2s ease; }
 .modal-dialog--game.is-expanded { width: 96vw; height: 94vh; }
 .modal-dialog--game .viewer-toolbar { min-height: 74px; }
 .modal-dialog--game .viewer-actions { padding-right: 2.7rem; }
 .modal-dialog--game .game-frame-wrap iframe { background: white; }
+#game-expand { background: linear-gradient(120deg, #2456a6, #167a88); }
+#game-expand:hover { background: linear-gradient(120deg, #2f68ca, #1b8999); }
 
 .modal-dialog--image { display: flex; align-items: center; justify-content: center; width: min(96vw, 1400px); height: 92vh; padding: 3rem 4.5rem 2.5rem; background: rgba(7,20,38,.98); }
 .lightbox-figure { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; margin: 0; }
 .lightbox-figure img { display: block; max-width: 100%; max-height: calc(92vh - 7rem); object-fit: contain; }
 .lightbox-figure figcaption { margin-top: .8rem; color: var(--text-muted); text-align: center; font-size: .88rem; }
-.gallery-nav { position: absolute; z-index: 3; top: 50%; display: grid; width: 2.7rem; height: 2.7rem; place-items: center; border: 1px solid var(--border); border-radius: 50%; background: rgba(47,104,202,.55); font-size: 2rem; cursor: pointer; transform: translateY(-50%); }
+.gallery-nav { position: absolute; z-index: 3; top: 50%; display: grid; width: 2.7rem; height: 2.7rem; padding: 0; place-items: center; border: 1px solid var(--border); border-radius: 50%; background: rgba(47,104,202,.55); font-size: 2rem; line-height: 1; cursor: pointer; transform: translateY(-50%); }
+.gallery-nav::before { content: ""; width: .35em; height: .35em; border-top: 2px solid currentColor; border-right: 2px solid currentColor; transform: translateX(-25%) rotate(45deg); }
+.gallery-nav--prev::before { transform: translateX(25%) rotate(-135deg); }
 .gallery-nav:hover { background: var(--blue); }
 .gallery-nav--prev { left: 1rem; }
 .gallery-nav--next { right: 1rem; }
@@ -303,7 +307,7 @@ h1 span { display: block; color: #FFFFFF; }
   .viewer-actions { flex-direction: column; align-items: stretch; gap: .35rem; padding-right: 2.5rem; }
   .toolbar-link { white-space: normal; font-size: .68rem; }
   .modal-dialog--pdf, .modal-dialog--game { width: 100%; height: 94vh; }
-  .modal-dialog--game { width: 96vw; height: 52vh; }
+  .modal-dialog--game { width: 96vw; height: 70vh; }
   .modal-dialog--game.is-expanded { width: 98vw; height: 96vh; }
   .modal-dialog--image { width: 100%; height: 96vh; padding: 3.2rem 2.6rem 2rem; }
   .lightbox-figure img { max-height: calc(96vh - 7rem); }
