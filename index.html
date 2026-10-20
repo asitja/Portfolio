@@ -15,8 +15,10 @@
     <aside class="profile-panel" aria-labelledby="profile-name">
       <div class="profile-content">
         <p class="eyebrow">PORTFOLIO · INFORMATIQUE & SCIENCES</p>
-        <h1 id="profile-name">Aurélie <span>Sitja</span></h1>
-        <p class="role">Ingénieure du Numérique <span>— alternance</span></p>
+        <div class="profile-heading">
+          <h1 id="profile-name">Aurélie <span>Sitja</span></h1>
+          <p class="role">Ingénieure du Numérique <span>— alternance</span></p>
+        </div>
         <div class="accent-line" aria-hidden="true"></div>
 
         <section class="intro-section" aria-labelledby="about-title">
@@ -65,28 +67,24 @@
         <section class="intro-section recommendation-section" aria-labelledby="recommendation-title">
           <h2 id="recommendation-title">Recommandation</h2>
           <p>Retrouvez une lettre de recommandation liée à mon parcours.</p>
-          <button class="action-bubble recommendation-bubble" type="button" data-open-recommendation>
-            <span class="action-icon" aria-hidden="true">★</span>
+          <button class="action-bubble action-bubble--wide action-bubble--gradient recommendation-bubble" type="button" data-open-recommendation>
             <span>Consulter ma lettre de recommandation</span>
-            <span aria-hidden="true">↗</span>
           </button>
         </section>
 
         <div class="profile-actions" aria-label="Liens et documents">
           <div class="action-row">
-            <button class="action-bubble" type="button" data-open-cv>
-              <span class="action-icon" aria-hidden="true">↗</span>
+            <button class="action-bubble action-bubble--outlined" type="button" data-open-cv>
+              <span class="action-icon action-icon--plain" aria-hidden="true">↗</span>
               <span>Consulter mon CV</span>
             </button>
-            <a class="action-bubble" href="https://www.linkedin.com/in/aurélie-sitja" target="_blank" rel="noopener noreferrer">
-              <span class="action-icon" aria-hidden="true">in</span>
+            <a class="action-bubble action-bubble--outlined" href="https://www.linkedin.com/in/aurélie-sitja" target="_blank" rel="noopener noreferrer">
+              <img class="action-icon action-icon--image" src="documents/autres/logoLinkedIn.png" alt="" aria-hidden="true">
               <span>LinkedIn</span>
             </a>
           </div>
-          <a class="action-bubble action-bubble--wide" href="#projets">
-            <span class="action-icon" aria-hidden="true">⌘</span>
+          <a class="action-bubble action-bubble--wide action-bubble--gradient action-bubble--centered" href="#projets">
             <span>Découvrir mes projets</span>
-            <span aria-hidden="true">↓</span>
           </a>
         </div>
         <div class="contact-links">

@@ -100,7 +100,6 @@
   let lastFocusedElement = null;
   let activeImages = [];
   let activeImageIndex = 0;
-  let currentPdfUrl = "";
   let pdfFallbackTimer = null;
 
   const $ = (selector, root = document) => root.querySelector(selector);
@@ -150,14 +149,13 @@
   }
 
   function openPdf(title, relativePath) {
-    const url = relativePath;
     $("#pdf-title").textContent = title;
-    $("#pdf-open-new").href = url;
-    $("#pdf-download").href = url;
+    $("#pdf-open-new").href = relativePath;
+    $("#pdf-download").href = relativePath;
     $("#pdf-download").setAttribute("download", relativePath.split("/").pop());
-    $("#pdf-fallback-link").href = url;
+    $("#pdf-fallback-link").href = relativePath;
     $("#pdf-fallback").hidden = true;
-    $("#pdf-frame").src = `${url}#view=FitH`;
+    $("#pdf-frame").src = `${relativePath}#view=FitH`;
     clearTimeout(pdfFallbackTimer);
     // Le lien direct reste toujours accessible même si le navigateur bloque l’aperçu.
     pdfFallbackTimer = window.setTimeout(() => {
