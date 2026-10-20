@@ -7,6 +7,7 @@
 
   const PATHS = {
     cv: "documents/autres/CV_AurélieSitja.pdf",
+    recommendation: "documents/autres/lettre-de-recommandation_AurelieSitja.pdf",
     reports: "documents/rapports/",
     images: "documents/images/"
   };
@@ -15,7 +16,7 @@
   const EXPERIENCES = {
     appl1: {
       kicker: "PROJET · LICENCE 1",
-      title: "APP L1 — Projet scientifique",
+      title: "APP L1 : Projet scientifique",
       subtitle: "Montage et mesures de PACM",
       paragraphs: [
         "Ce projet de première année s’est appuyé sur une démarche expérimentale : préparation du montage, réalisation de mesures et observation du fonctionnement de plusieurs PACM.",
@@ -48,7 +49,7 @@
     },
     appl2: {
       kicker: "PROJET · LICENCE 2",
-      title: "APP L2 — Photobioréacteur",
+      title: "APP L2 : Photobioréacteur",
       subtitle: "Projet autour de microalgues Chlorella",
       paragraphs: [
         "Ce projet portait sur un photobioréacteur et l’étude de microalgues du genre Chlorella, avec l’idée d’explorer leur intégration dans un espace vert.",
@@ -69,6 +70,8 @@
       ],
       report: "rapportStageL2.pdf",
       reportLabel: "Consulter le rapport de stage L2",
+      videoUrl: "https://youtu.be/AnKByTgDi_U?si=TuuoKCJNdQ95YsIe",
+      recommendation: "documents/autres/lettre-de-recommandation_AurelieSitja.pdf",
       images: [
         { file: "antenne1.jpg", caption: "Modèle initial de l’antenne" },
         { file: "antenne2.jpg", caption: "Modèle simulé sous CST Studio Suite" },
@@ -223,6 +226,28 @@
     reportLink.addEventListener("click", () => openPdf(experience.reportLabel, PATHS.reports + experience.report));
     actions.appendChild(reportLink);
 
+    if (experience.videoUrl) {
+      const videoLink = document.createElement("a");
+      videoLink.className = "document-button";
+      videoLink.href = experience.videoUrl;
+      videoLink.target = "_blank";
+      videoLink.rel = "noopener noreferrer";
+      videoLink.textContent = "▶ Voir le rendu vidéo sur YouTube";
+      actions.appendChild(videoLink);
+    }
+
+    if (experience.recommendation) {
+      const recommendationButton = document.createElement("button");
+      recommendationButton.type = "button";
+      recommendationButton.className = "document-button";
+      recommendationButton.textContent = "★ Consulter la lettre de recommandation";
+      recommendationButton.addEventListener("click", () => openPdf(
+        "Lettre de recommandation — Aurélie Sitja",
+        experience.recommendation
+      ));
+      actions.appendChild(recommendationButton);
+    }
+
     if (key === "stageL3") {
       const cardLink = document.createElement("button");
       cardLink.type = "button";
@@ -261,7 +286,7 @@
   }
 
   const GAMES = {
-    blockus: { title: "Blockus", path: "projets/blockus/" },
+    blokus: { title: "blokus", path: "projets/blokus/" },
     tourCartes: { title: "Tour de cartes", path: "projets/tourCartes/" }
   };
 
@@ -280,6 +305,9 @@
   });
   $$("[data-open-cv]").forEach(button => {
     button.addEventListener("click", () => openPdf("CV — Aurélie Sitja", PATHS.cv));
+  });
+  $$("[data-open-recommendation]").forEach(button => {
+    button.addEventListener("click", () => openPdf("Lettre de recommandation — Aurélie Sitja", PATHS.recommendation));
   });
   $$("[data-open-game]").forEach(button => {
     button.addEventListener("click", () => openGame(button.dataset.openGame));

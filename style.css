@@ -218,3 +218,10 @@ h1 span { display: block; color: #A6D8FF; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+
+/* Lettre de recommandation dans le panneau de présentation */
+.recommendation-section { margin-top: -.2rem; }
+.recommendation-section > p { margin-bottom: .8rem; }
+.recommendation-bubble { width: 100%; justify-content: flex-start; text-align: left; }
+.recommendation-bubble span:nth-child(2) { flex: 1; }
