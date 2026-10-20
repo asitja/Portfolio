@@ -160,7 +160,7 @@ input[type=range] {
 .card {
   height: 125px;
   min-width: 0;
-  background: #faf9f2;
+  background: #efefef;
   color: #202b28;
   border-radius: 9px;
   position: relative;
@@ -224,7 +224,7 @@ input[type=range] {
 }
 
 .mini {
-  background: #faf9f2;
+  background: #efefef;
   color: #203129;
   padding: 9px 7px;
   border-radius: 5px;
@@ -259,9 +259,9 @@ h3 {
 .slot {
   height: 40px;
   padding: 8px;
-  border: 1px dashed #cbb577;
+  border: 1px dashed #7ba385;
   background: #284f40;
-  color: #ffe5ac;
+  color: #7ba385;
   font-size: 12px;
   width: 100%;
 }
@@ -273,7 +273,7 @@ h3 {
 }
 
 .status {
-  color: #ffe2a3;
+  color: #7ba385;
   min-height: 24px;
   font-size: 18px;
   line-height: 1.55;
