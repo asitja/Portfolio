@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockus - Jeu 4 joueurs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="game-header">
+        <button id="rules-open" class="icon-button" type="button" aria-label="Afficher les règles" title="Règles du jeu">i</button>
+        <h1>Blokus</h1>
+    </header>
+    <div class="container">
+        <table class="center-table" aria-label="Plateau de Blokus, 20 lignes et 20 colonnes">
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            </tr>
+        </table>
+        
+        <div class="selection-area">
+            <table class="selection-table">
+                <tr>
+                    <td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td><td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td></td><td></td><td></td><td></td><td></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <p id="game-status" role="status" aria-live="polite"></p>
+    <dialog id="rules-dialog" aria-labelledby="rules-title">
+        <button id="rules-close" class="icon-button" type="button" aria-label="Fermer les règles" title="Fermer">×</button>
+        <h2 id="rules-title">Règles du Blokus</h2>
+        <p>À quatre joueurs, posez un maximum de vos 21 pièces sur le plateau de 20 × 20 cases.</p>
+        <h3>Placer ses pièces</h3>
+        <ul>
+            <li>L'ordre de jeu est : bleu, jaune, rouge, puis vert.</li>
+            <li>Pour votre premier coup, couvrez un angle libre de votre choix. Les angles disponibles sont indiqués dans votre couleur.</li>
+            <li>Ensuite, chaque pièce doit toucher au moins un coin d'une pièce de votre couleur, sans jamais la toucher par un côté.</li>
+            <li>Les contacts avec les autres couleurs sont autorisés, par les côtés comme par les coins. Aucune pièce ne peut se superposer ou dépasser du plateau.</li>
+            <li>Vous pouvez tourner et retourner vos pièces avant de les poser.</li>
+        </ul>
+        <h3>Fin de partie et score</h3>
+        <p>Un joueur sans coup possible passe automatiquement. La partie se termine lorsque personne ne peut plus jouer.</p>
+        <ul>
+            <li>Chaque carré restant vaut −1 point.</li>
+            <li>Toutes les pièces posées : +15 points au total.</li>
+            <li>Toutes les pièces posées avec le carré solitaire en dernier : +20 points au total, au lieu de +15.</li>
+        </ul>
+        <p>Le score le plus élevé gagne. Les égalités sont possibles.</p>
+    </dialog>
+    
+    <!-- Écran de fin de partie -->
+    <div id="game-over">
+        <p class="game-over-title">Fin de Partie</p>
+        <div class="scores-container">
+            <div class="winner-announcement" id="winner-text"></div>
+            <div class="scores-list" id="scores-display"></div>
+        </div>
+        <button class="restart-button" onclick="restartGame()">Nouvelle Partie</button>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
