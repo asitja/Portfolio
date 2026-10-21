@@ -367,7 +367,7 @@ function selectPiece(pieceKey) {
     if (gameFinished) return;
     // Vérifier si la pièce n'est pas déjà jouée
     if (playedPieces[currentPlayer].includes(pieceKey)) {
-        alert('Cette pièce a déjà été jouée!');
+        alert('Cette pièce a déjà été jouée !');
         return;
     }
     
@@ -728,7 +728,7 @@ function restartGame() {
     console.log(`🎮 Nouvelle partie commencée ! (Partie ${currentGameNumber})`);
     console.log(`📈 Parties jouées: ${gameHistory.length}`);
     
-    // Afficher les statistiques des victoires si il y a plusieurs parties
+    // Afficher les statistiques des victoires s'il y a plusieurs parties
     if (gameHistory.length > 1) {
         const victories = {};
         gameHistory.forEach(game => {

@@ -19,8 +19,8 @@
       title: "APP L1 : Projet scientifique",
       subtitle: "Montage et mesures de PACM",
       paragraphs: [
-        "Ce projet de première année s’est appuyé sur une démarche expérimentale : préparation du montage, réalisation de mesures et observation du fonctionnement de plusieurs PACM.",
-        "Les photographies documentent les différentes étapes du travail. L’acronyme « PACM » est conservé tel quel afin de ne pas lui attribuer une signification non vérifiée."
+        "Ce projet de première année s’est appuyé sur une démarche expérimentale : préparation du montage, réalisation de mesures et observation du fonctionnement de plusieurs PACM (piles à combustible microbiennes).",
+        "Les photographies documentent certaines étapes du travail, notamment lors de la réalisation des piles tests et témoins."
       ],
       report: "rapportAPPL1.pdf",
       reportLabel: "Consulter le rapport APP L1",
@@ -52,8 +52,8 @@
       title: "APP L2 : Photobioréacteur",
       subtitle: "Projet autour de microalgues Chlorella",
       paragraphs: [
-        "Ce projet portait sur un photobioréacteur et l’étude de microalgues du genre Chlorella, avec l’idée d’explorer leur intégration dans un espace vert.",
-        "Le rapport associé constitue la référence pour les choix de conception, la démarche suivie et les résultats du projet. Cette présentation reste volontairement générale afin de ne pas attribuer au projet des résultats qui ne seraient pas vérifiés."
+        "Ce projet portait sur la réalisation d'un photobioréacteur et l’étude de microalgues du genre Chlorella, avec l’idée d’explorer leur intégration dans un espace vert.",
+        "Le rapport associé constitue la référence pour les choix de conception, la démarche suivie et les résultats du projet pour la \"Grande Expérience\". Ce projet a permis de tester différents milieux pour savoir lequel choisir lors de la réalisation des photobioréacteurs respectant l'intégration dans un espace vert."
       ],
       report: "rapportAPPL2.pdf",
       reportLabel: "Consulter le rapport APP L2",
@@ -68,7 +68,7 @@
       paragraphs: [
         "Lors de mon stage à Télécom Paris, j’ai travaillé sur la modélisation d’une antenne quasi-spirale à polarisation circulaire, avec une bande de fréquence cible de 3 à 4 GHz.",
         "Le travail s’appuyait sur CST Studio Suite pour construire et simuler le modèle, étudier les paramètres électromagnétiques et comparer différentes versions de la géométrie. Des prototypes imprimés ont également été documentés dans le cadre de la validation expérimentale.",
-        "La galerie présente les étapes de modélisation et les prototypes. Les légendes sont volontairement prudentes ; elles peuvent être affinées après vérification des visuels exacts."
+        "La galerie présente les étapes de modélisation et les prototypes."
       ],
       report: "rapportStageL2.pdf",
       reportLabel: "Consulter le rapport de stage L2",
@@ -89,11 +89,14 @@
       paragraphs: [
         "Au cours d’un stage de huit semaines à l’Institut de Mathématiques d’Orsay, j’ai étudié les générateurs de nombres pseudo-aléatoires (PRNG), leur fonctionnement et certaines de leurs propriétés statistiques.",
         "Le travail a notamment abordé les notions de graine, de période, d’équirépartition, de corrélations et plusieurs familles de générateurs, dont les générateurs congruentiels linéaires. J’ai utilisé Python pour construire des outils d’étude et expérimenter autour des suites produites.",
-        "Le rapport disponible est utilisé comme document de référence. Certaines parties de ce PDF semblent encore contenir des éléments provisoires ; il est donc conseillé de vérifier sa version publique avant diffusion."
+        "Au cours du stage, j'ai aussi pu participer à la tenue d'un stand au Salon Culture et Jeux Mathématiques, pendant lequel notre groupe a réalisé des tours de magie en expliquant leurs principes mathématiques."
       ],
       report: "rapportStageL3.pdf",
       reportLabel: "Consulter le rapport de stage L3",
-      images: []
+      images: [
+        { file: "carte1.jpg", caption: "Stand Math en Scène et Compagnie" },
+        { file: "carte2.jpg", caption: "Stand Math en Scène et Compagnie" }
+      ]
     }
   };
 
@@ -106,6 +109,93 @@
 
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+
+  function startHeadingImages() {
+    const container = $(".heading-images");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!container) return;
+
+    const pictures = Object.entries(EXPERIENCES).flatMap(([key, experience]) =>
+      experience.images.map(image => ({ ...image, experience: key }))
+    ).sort((first, second) => first.file.localeCompare(second.file, "fr"));
+    const positions = [
+      [0, .1], [.6, .8], [.2, .55], [1, .2], [.4, 1],
+      [.8, .45], [.1, .9], [.5, 0], [.9, .95], [.3, .3], [.7, .65]
+    ];
+    const inclinations = [-12, -6, 0, 6, 12];
+    const recentInclinations = [];
+    const recentSlots = [];
+    let step = 0;
+    let timer = null;
+
+    function showImages() {
+      const offset = [0, 5, 10][step % 3];
+      const picture = pictures[(Math.floor(step / 3) + offset) % pictures.length];
+      const imageButton = document.createElement("button");
+      const image = document.createElement("img");
+      const availableSlots = positions.map((position, index) => index)
+        .filter(index => !recentSlots.includes(index))
+        .map(index => ({
+          index,
+          distance: recentSlots.length ? Math.min(...recentSlots.map(recent =>
+            (positions[index][0] - positions[recent][0]) ** 2 +
+            (positions[index][1] - positions[recent][1]) ** 2
+          )) : 1
+        }))
+        .sort((first, second) => second.distance - first.distance)
+        .slice(0, 3)
+        .map(position => position.index);
+      const slot = availableSlots[Math.floor(Math.random() * availableSlots.length)];
+      const [horizontal, vertical] = positions[slot];
+      const previousInclination = recentInclinations[recentInclinations.length - 1];
+      const availableInclinations = inclinations.filter(angle =>
+        !recentInclinations.includes(angle) &&
+        (previousInclination === undefined ||
+          (Math.abs(angle - previousInclination) >= 12 &&
+            (angle === 0 || Math.sign(angle) !== Math.sign(previousInclination))))
+      );
+      const inclination = availableInclinations[Math.floor(Math.random() * availableInclinations.length)];
+      imageButton.type = "button";
+      imageButton.className = "heading-image";
+      imageButton.setAttribute("aria-label", `Voir : ${EXPERIENCES[picture.experience].title}`);
+      imageButton.title = EXPERIENCES[picture.experience].title;
+      image.alt = "";
+      image.src = PATHS.images + picture.file;
+      image.draggable = false;
+      imageButton.style.setProperty("--image-x", horizontal);
+      imageButton.style.setProperty("--image-y", vertical);
+      imageButton.style.setProperty("--image-angle", `${inclination}deg`);
+      imageButton.addEventListener("click", () => {
+        buildExperienceModal(picture.experience);
+        lastFocusedElement = $(`[data-experience="${picture.experience}"]`);
+      });
+      image.addEventListener("error", () => imageButton.remove(), { once: true });
+      imageButton.appendChild(image);
+      container.appendChild(imageButton);
+      window.setTimeout(() => imageButton.remove(), 3000);
+      recentSlots.push(slot);
+      if (recentSlots.length > 2) recentSlots.shift();
+      recentInclinations.push(inclination);
+      if (recentInclinations.length > 2) recentInclinations.shift();
+      step = (step + 1) % (pictures.length * 3);
+      timer = window.setTimeout(showImages, 1000);
+    }
+
+    function syncAnimation() {
+      window.clearTimeout(timer);
+      container.replaceChildren();
+      if (!document.hidden && !reducedMotion.matches) {
+        timer = window.setTimeout(showImages, 1000);
+      }
+    }
+
+    document.addEventListener("visibilitychange", syncAnimation);
+    reducedMotion.addEventListener("change", syncAnimation);
+    if (document.readyState === "complete") syncAnimation();
+    else window.addEventListener("load", syncAnimation, { once: true });
+  }
+
+  startHeadingImages();
 
   function setModalOpen(modal, open) {
     if (!modal) return;
@@ -286,7 +376,7 @@
   }
 
   const GAMES = {
-    blokus: { title: "blokus", path: "projets/blokus/" },
+    blokus: { title: "Blokus", path: "projets/blokus/" },
     tourCartes: { title: "Tour de cartes", path: "projets/tourCartes/" }
   };
 
