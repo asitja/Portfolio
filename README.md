@@ -16,7 +16,16 @@ Voilà le lien pour y accéder : https://asitja.github.io/Portfolio/
 
 ## Technologies
 
-Site statique en **HTML, CSS et JavaScript**, sans framework ni dépendance externe.
+Site statique en **HTML, CSS et JavaScript**, sans framework. Un script externe GoatCounter assure la mesure d'audience.
+
+## Statistiques de visites
+
+Les trois pages du site utilisent GoatCounter, sans compteur visible ni cookie de suivi.
+Le tableau de bord est accessible sur https://asitja.goatcounter.com/ avec le compte de la propriétaire.
+Dans les paramètres GoatCounter, laisser **Public statistics** désactivé pour que les statistiques restent privées : ce réglage se fait dans GoatCounter, pas dans le code du site.
+
+Les visites seront comptabilisées après publication sur GitHub Pages. Les bloqueurs de contenu peuvent empêcher leur enregistrement ; les visites précédant l'installation ne sont pas récupérées.
+Prévoir une information des visiteurs sur cette mesure d'audience : https://www.goatcounter.com/help/privacy.
 
 ## Structure
 
